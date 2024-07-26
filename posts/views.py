@@ -13,18 +13,21 @@ def post(request):
     if not request.user.is_authenticated:
         #NOT AUTH LOGIC
         return HttpResponseRedirect(reverse("main:index"))
+    
+    current_time = datetime.datetime.now()
 
     Posts.objects.create(
         text = message, 
-        posting_time = datetime.datetime.now(),
+        posting_time = current_time,
         user = request.user
     )
 
     return HttpResponseRedirect(reverse("main:index"))    
 
+
+
 def commentary(request):
 
-    
 
     if not request.user.is_authenticated:
         #NOT AUTH LOGIC
@@ -37,13 +40,20 @@ def commentary(request):
     post = Posts.objects.get(id = post_id)
     user = Users.objects.get(id = user_id)
 
+
     Commentaries.objects.create(
         text = text,
         post = post,
         user = user
     )
 
-    
-    return HttpResponseRedirect(reverse("main:index"))
+    try:
+        referer = request.META.get('HTTP_REFERER')
+    except:
+        referer = reverse("main:index")
+
+
+
+    return HttpResponseRedirect(referer)
 
     

@@ -18,6 +18,17 @@
 }
 
 .username_text {
+  color: black;
   font-family:monospace;
   font-weight: 880;
+  font-size: 21px;
 }
+
+.username_text:hover {
+  text-decoration:none;
+  color: rgb(80, 80, 80);
+  font-family:monospace;
+  font-weight: 880;
+  font-size: 21px;
+}
+

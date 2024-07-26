@@ -97,7 +97,7 @@ def profile(request, username):
         return HttpResponseRedirect(reverse("main:index"))
     
     
-    posts = Posts.objects.all().filter(user = user)
+    posts = Posts.objects.all().filter(user = user).order_by("-posting_time")
     has_posts = len(posts) > 0
 
 
@@ -106,7 +106,6 @@ def profile(request, username):
         "user":user,
         "posts":posts,
         "has_posts":has_posts,
-
     }
 
     return render(request, "user/profile.html", context)
