@@ -170,40 +170,74 @@
         <div class="card-body">
 
             <div class="media">
-                <img src="{{post.user.image}}" alt="img" width="55px" height="55px" class="rounded-circle mr-3">
+                <img src="{{post.user.image}}" alt="img" width="60px" height="60px" class="rounded-circle mr-3">
 
             <div class="media-body">
                     <a href="{% url "user:profile" post.user.username %}" class = "username_text">{{post.user.username}}</a>
                     <p class="text-justify">{{post.text}}</p>
                     
 
+                    <div class = "user_actions">
 
+                        <form class = "commentary_input" metod = "GET" action = "{% url "posts:commentary" %}">
+                            <div class = "custom_commentary_text">
+
+                                <a href="#" class="like_button">
+                                    <img src = "{% static "main/like_button/black_heart.svg" %}" height = 30px, width = 30px>
+                                </a>
+
+    
+                                <input type="text" name="message" id="message" placeholder="Commentary" class="commentary_input_text">
+                                <input type="hidden" name="post_id" value="{{post.id}}">
+                                
+                                
+                                
+                                <script>
+                                    function myFunction() {
+
+                                        var posts = document.getElementById('post_commentaries')
+                                    
+                                        if (posts.style.display == "none"){
+                                            posts.style.display = "block"
+                                        }else{
+                                            posts.style.display = "none"
+                                        }
+                                    
+                                      } 
+                                </script>
+
+                                <form>
+                                    <button type = "button" class = "comment_button" onclick="myFunction()">
+                                        <img src = "{% static "main/comment_button/comment-solid.svg" %}" height = 30px, width = 30px>
+                                    </button>
+                                </form>
+                            </div>
+                        </form>
+    
+                    </div>
                     
-                {% comment %} commentaries {% endcomment %}
-                {% get_commentaries post as commentaries %}
-                <p class = "commentaries">
-                    {% for commentary in commentaries %}
-                        <div class="media">
-                            <img src="{{commentary.user.image}}" alt="img" width="25px" height="25px" class="rounded-circle mr-2">
-                            <div class="media-body">
-                                    <p class="card-text text-justify">{{commentary.user.username}}: {{commentary.text}}</p>
+                    
+                <div class = "post_commentaries" id = "post_commentaries" style="display:none">
+                    {% comment %} commentaries {% endcomment %}
+                    {% get_commentaries post as commentaries %}
+                    <p class = "commentaries">
+                        {% for commentary in commentaries %}
+                            <div class="media">
+                                <img src="{{commentary.user.image}}" alt="img" width="30px" height="30px" class="rounded-circle mr-2">
+                                <div class="media-body">
+                                        <p class="card-text text-justify">{{commentary.user.username}}: {{commentary.text}}</p>
+
+                                </div>
+
 
                             </div>
+                        {% endfor %}
+                    </p>    
+                    {% comment %} commentaries {% endcomment %}
 
-
-                        </div>
-                    {% endfor %}
-                </p>    
-                {% comment %} commentaries {% endcomment %}
-
+                </div>
             
-
-
-                <form class = "commentary_input" metod = "GET" action = "{% url "posts:commentary" %}">
-                    <input type="text" name="message" id="message" placeholder="Commentary" class="form-control form-control-md">
-                    <input type="hidden" name="post_id" value="{{post.id}}">
-                </form>
-
+                
 
             </div>
 

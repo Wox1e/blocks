@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from posts.models import Posts, Commentaries
-from user.models import Users
+from user.models import Users, Follow
 import datetime
 
 # Create your views here.
@@ -57,3 +57,22 @@ def commentary(request):
     return HttpResponseRedirect(referer)
 
     
+def follow(request):
+    if not request.user.is_authenticated:
+        #NOT AUTH LOGIC
+        return HttpResponseRedirect(reverse("user:login"))
+
+    follower = request.user
+    target_username = request.GET["target_username"]
+    target = Users.objects.all().filter(username = target_username)
+    print(request.GET)
+    print(request)
+    print(target)
+
+    try:
+        referer = request.META.get('HTTP_REFERER')
+    except:
+        referer = reverse("main:index")
+    # Follow.objects.create(
+    #     follower = follower,
+    # )

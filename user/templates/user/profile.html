@@ -4,6 +4,9 @@
 {% load get_time_difference %}
 
 
+{% block title %}
+<title>Профиль {{user.username}}</title>
+{% endblock title %}
 
 
 {% block content %}
@@ -25,13 +28,13 @@
 				</div>
 
 				<div class="col-md-9 p-t-2">
-					<h2 class="h2-responsive">@{{user.username}} <button type="button" class="btn btn-info-outline waves-effect">Follow</button></h2>
+					<form> <h2 class="h2-responsive">@{{user.username}}<button disabled type="button" value="user.username"  formmethod = "GET" formaction = "{% url "posts:follow"%}" class="btn btn-info-outline waves-effect">Follow</button></h2> </form> 
 					<p>{{user.first_name}} {{user.last_name}}</p>
 
 					<ul class="flex-menu">
-						<li><strong>41</strong> posts</li>
-						<li><strong>47k</strong> followers</li>
-						<li><strong>208</strong> following</li>
+						<li><strong>{{posts_num}}</strong> posts</li>
+						<li><strong>{{followers_num}}</strong> followers</li>
+						<li><strong>{{follows_num}}</strong> following</li>
 					</ul>
 				</div>
 

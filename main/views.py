@@ -4,10 +4,23 @@ import datetime
 
 # Create your views here.
 
+#caching
+from main.utils import *
+
+
+#
 
 def index(request):
     user = request.user
 
+    ##go to cache
+    try:
+        check_cache_api()
+    except:
+        print("api not work")
+    ##
+    
+    
     posts = Posts.objects.all().order_by('-posting_time')
     has_posts = len(posts) > 0
     current_time = datetime.datetime.now()

@@ -4,7 +4,7 @@ from django.urls import reverse
 from user.forms import UserLoginForm, UserRegisterForm
 from django.contrib import auth
 from blocks.settings import DEBUG
-from user.models import Users
+from user.models import Users, Follow
 from posts.models import Posts, Commentaries
 
 
@@ -99,13 +99,21 @@ def profile(request, username):
     
     posts = Posts.objects.all().filter(user = user).order_by("-posting_time")
     has_posts = len(posts) > 0
+    posts_num = len(posts)
 
+    follows = Follow.objects.all().filter(follower = user)
+    follows_num = len(follows)
 
+    followers = Follow.objects.all().filter(target = user)
+    followers_num = len(follows)
 
     context = {
         "user":user,
         "posts":posts,
         "has_posts":has_posts,
+        "posts_num":posts_num,
+        "follows_num":follows_num,
+        "followers_num":followers_num,
     }
 
     return render(request, "user/profile.html", context)
