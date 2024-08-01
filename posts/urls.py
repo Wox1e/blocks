@@ -23,5 +23,7 @@ app_name = "posts"
 urlpatterns = [
     path("post/", views.post, name = "post"),
     path("commentary/", views.commentary, name = "commentary"),
-    path("follow/", views.follow, name = "follow")
+    path("follow/", views.follow, name = "follow"),
+    path("unfollow/", views.unfollow, name="unfollow"),
+    path("post_like/", views.post_like, name="post_like")
 ]

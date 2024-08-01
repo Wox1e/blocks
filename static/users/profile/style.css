@@ -1,0 +1,48 @@
+.user_image {
+   border-radius: 50%;
+   width: 120px;
+   height: 120px;
+}
+
+.user_bio {
+	padding: 1em 2em;
+	width: 100%;
+	outline: none;
+	color: #000000;
+	border: 3px ridge #D3DDDA;
+	border-radius: 20px;
+	box-shadow: 6px 3px 2px 0px #E2E2E2;
+	transition: .3s ease;
+    background-color: azure;
+    
+}
+.user_bio:focus {
+    background:#E2E2E2;
+	border: 0px groove #5A7EC7;
+	border-radius: 7px;
+}
+
+.leftside_user_bio {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+
+
+.bio_other_info {
+    display: inline-block;
+    width: 100%;
+}
+
+.followers {
+    font-size: 23px;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.container_bio {
+    width: 100%;
+    padding-left: 10px;
+}
+

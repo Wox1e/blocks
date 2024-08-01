@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from posts.models import Posts, Commentaries
+from posts.models import Posts, Commentaries, Post_Like
 from user.models import Users, Follow
 import datetime
 
@@ -63,16 +63,70 @@ def follow(request):
         return HttpResponseRedirect(reverse("user:login"))
 
     follower = request.user
-    target_username = request.GET["target_username"]
-    target = Users.objects.all().filter(username = target_username)
-    print(request.GET)
-    print(request)
-    print(target)
+    target_username = request.GET["username"]
+    target = Users.objects.get(username = target_username)
+
 
     try:
-        referer = request.META.get('HTTP_REFERER')
+        redirect = request.META.get('HTTP_REFERER')
     except:
-        referer = reverse("main:index")
-    # Follow.objects.create(
-    #     follower = follower,
-    # )
+        redirect = reverse("main:index")
+
+    Follow.objects.create(
+        follower = follower,
+        target = target
+    )
+
+
+    return HttpResponseRedirect(redirect)
+
+
+def unfollow(request):
+
+    
+    
+    try:
+        username = request.GET["username"]
+    except:
+        #ERROR
+        return HttpResponseRedirect(reverse("main:index"))
+    
+    target_user = Users.objects.get(username = username)
+    print(target_user)
+    Follow.objects.filter(follower = request.user, target = target_user).delete()
+
+    try:
+        redirect = request.META.get('HTTP_REFERER')
+    except:
+        redirect = reverse("main:index")
+
+    return HttpResponseRedirect(redirect)
+    
+
+def post_like(request):
+
+    if not request.user.is_authenticated:
+        #NOT AUTH LOGIC
+        return HttpResponseRedirect(reverse("user:login"))
+    
+    try:
+        id = request.GET["id"]
+    except:
+        #ERROR
+        return HttpResponseRedirect(reverse("main:index"))
+    
+
+    if len(Post_Like.objects.filter(user = request.user, post = id)) > 0:
+        #Already liked
+        return HttpResponseRedirect(reverse("main:index"))
+
+    post = Posts.objects.get(pk = id)
+    Post_Like.objects.create(user = request.user, post = post)
+
+
+    try:
+        redirect = request.META.get('HTTP_REFERER')
+    except:
+        redirect = reverse("main:index")
+
+    return HttpResponseRedirect(redirect)

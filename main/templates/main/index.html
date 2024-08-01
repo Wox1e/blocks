@@ -161,7 +161,7 @@
 
         </form>
 
-
+    
 
 
     {% if has_posts %}                           
@@ -171,7 +171,7 @@
 
             <div class="media">
                 <img src="{{post.user.image}}" alt="img" width="60px" height="60px" class="rounded-circle mr-3">
-
+        
             <div class="media-body">
                     <a href="{% url "user:profile" post.user.username %}" class = "username_text">{{post.user.username}}</a>
                     <p class="text-justify">{{post.text}}</p>
@@ -182,9 +182,11 @@
                         <form class = "commentary_input" metod = "GET" action = "{% url "posts:commentary" %}">
                             <div class = "custom_commentary_text">
 
-                                <a href="#" class="like_button">
-                                    <img src = "{% static "main/like_button/black_heart.svg" %}" height = 30px, width = 30px>
-                                </a>
+                                <div class = "like">
+                                    <a href={% url "posts:post_like" %}?id={{post.id}} class="like_button">
+                                        <img src = "{% static "main/like_button/black_heart.svg" %}" height = 30px, width = 30px>
+                                    </a>
+                                </div>
 
     
                                 <input type="text" name="message" id="message" placeholder="Commentary" class="commentary_input_text">
@@ -241,6 +243,9 @@
 
             </div>
 
+
+
+
             <small>{%get_time_difference post.posting_time%}</small>
 
             </div>
@@ -253,6 +258,14 @@
             <hr>
 
         {% endfor %}
+
+            {% comment %} pagination {% endcomment %}
+
+           
+            
+            {% comment %}  {% endcomment %}
+
+
     {% else %}
     <p>Постов нет<p>
     {% endif %} 
@@ -300,7 +313,6 @@
 
 
 
-        <br> <br> <br><br> <br> <br>
 
 {% endblock content %}
 

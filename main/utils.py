@@ -5,6 +5,7 @@ from django.db.models import QuerySet
 
 
 def check_cache_api():
+    #bad working
     return requests.get("http://127.0.0.1:5000/check")
 
 def get_post_from_cache(pk:int):

@@ -105,7 +105,14 @@ def profile(request, username):
     follows_num = len(follows)
 
     followers = Follow.objects.all().filter(target = user)
-    followers_num = len(follows)
+    followers_num = len(followers)
+
+    is_followed = len(Follow.objects.filter(follower = request.user, target = user)) > 0
+
+
+    view_as = "" #owner, follower, default
+    #to do!!!!!
+
 
     context = {
         "user":user,
@@ -114,6 +121,7 @@ def profile(request, username):
         "posts_num":posts_num,
         "follows_num":follows_num,
         "followers_num":followers_num,
+        "is_followed":is_followed,
     }
 
     return render(request, "user/profile.html", context)

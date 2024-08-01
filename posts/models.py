@@ -10,7 +10,8 @@ class Posts(models.Model):
     posting_time = models.DateTimeField(auto_now_add=True, blank=True)
     user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
 
-    
+    def likes(self):
+        return len(Post_Like.objects.filter(post = self))
 
     class Meta:
         verbose_name = ("Пост")
@@ -30,3 +31,12 @@ class Commentaries(models.Model):
         verbose_name_plural = ("Комментарии")
 
 
+class Post_Like(models.Model):
+    user = models.ForeignKey(to=Users,on_delete=models.CASCADE)
+    post = models.ForeignKey(to=Posts, on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = ("Лайк")
+        verbose_name_plural = ("Лайки")
+
+    def __str__(self):
+        return f"{self.user} liked {self.post}"

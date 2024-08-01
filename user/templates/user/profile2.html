@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+{% extends "main/base.html" %}
+{% load static %}
+{% load get_commentaries %}
+{% load get_time_difference %}
+<link rel="stylesheet" href="{% static "users/profile/style.css" %}">
+<link rel="stylesheet" href="{% static "main/style.css" %}">
+
+{% block title %}
+    <title>{{title}}</title>
+{% endblock title %}
+
+
+{% block content %}
+        <!---------------------------------------Middle columns  start---------------->
+
+
+
+        <div class="container_bio">
+
+			<div class = "user_bio">
+
+				<div class = "leftside_user_bio">
+					<div class="row m-b-r m-t-3">
+
+						<div class="user_image_div">
+							<img src="{{user.image}}" alt="" class="user_image">
+						</div>
+
+						<div class="col-md-9 p-t-2">
+							<form> <h2 class="h2-responsive">@{{user.username}}<button disabled type="button" value="user.username"  formmethod = "GET" formaction = "{% url "posts:follow"%}" class="btn btn-info-outline waves-effect">Follow</button></h2> </form> 
+							<p>{{user.first_name}} {{user.last_name}}</p>
+							<p>Description</p>
+						</div>
+					</div>
+					
+					<div class = "bio_other_info">
+						<strong>{{posts_num}} posts</strong> <strong class = "followers">{{followers_num}} followers</strong> <strong> {{follows_num}} follow</strong>
+					</div>
+
+				</div>		
+
+				{% comment %} <div class = "rightside_user_bio">
+						<ul class="flex-menu">
+							<li><strong>{{posts_num}}</strong> posts</li>
+							<li><strong>{{followers_num}}</strong> followers</li>
+							<li><strong>{{follows_num}}</strong> following</li>
+						</ul>
+				</div> {% endcomment %}
+
+			</div>
+
+		</div>
+			
+
+
+
+
+    {% if has_posts %}                           
+    {% for post in posts %}
+
+    <div class="card-body">
+
+        <div class="media">
+            <img src="{{post.user.image}}" alt="img" width="55px" height="55px" class="rounded-circle mr-3">
+
+        <div class="media-body">
+                <a href="{% url "user:profile" post.user.username %}" class = "username_text">{{post.user.username}}</a>
+                <p class="text-justify">{{post.text}}</p>
+                
+
+
+                
+            {% comment %} commentaries {% endcomment %}
+            {% get_commentaries post as commentaries %}
+            <p class = "commentaries">
+                {% for commentary in commentaries %}
+                    <div class="media">
+                        <img src="{{commentary.user.image}}" alt="img" width="25px" height="25px" class="rounded-circle mr-2">
+                        <div class="media-body">
+                                <p class="card-text text-justify">{{commentary.user.username}}: {{commentary.text}}</p>
+
+                        </div>
+
+
+                    </div>
+                {% endfor %}
+            </p>    
+            {% comment %} commentaries {% endcomment %}
+
+           
+
+
+            <form class = "commentary_input" metod = "GET" action = "{% url "posts:commentary" %}">
+                <input type="text" name="message" id="message" placeholder="Commentary" class="form-control form-control-md">
+                <input type="hidden" name="post_id" value="{{post.id}}">
+            </form>
+
+
+        </div>
+
+        <small>{%get_time_difference post.posting_time%}</small>
+
+        </div>
+
+
+
+
+
+        </div>
+        <hr>
+
+    {% endfor %}
+{% else %}
+<p>Постов нет<p>
+{% endif %} 
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+
+
+{% comment %} 
+{% block left_column %}
+<div class="col-12 col-lg-3">
+
+    <div class="left-column">
+
+
+        <div class="card card-left1 mb-4" >
+            <img src="{% static "img/photo-1455448972184-de647495d428.jpg" %}" alt="" class="card-img-top img-fluid">
+            <div class="card-body text-center ">
+                <img src="{% static "img/avatar-dhg.png" %}" alt="img" width="120px" height="120px" class="rounded-circle mt-n5">
+                <h5 class="card-title">Dave Gamache</h5>
+                <p class="card-text text-justify mb-2">I wish i was a little bit taller, wish i was a baller, wish i had a girl… also.</p>
+                <ul class="list-unstyled nav justify-content-center">
+                   <a href="#" class="text-dark text-decoration-none"> <li class="nav-item">Friends <br> <strong>12M</strong></li></a>
+                  <a href="#" class="text-dark text-decoration-none"> <li class="nav-item">Enimes <br> <strong>1</strong></li></a> 
+                </ul>
+
+            </div>
+
+
+
+
+        </div>
+
+
+        <div class="card shadow-sm card-left2 mb-4">
+
+            <div class="card-body">
+
+                    <h5 class="mb-3 card-title">About <small><a href="#" class="ml-1">Edit</a></small></h5>
+
+                    <p class="card-text"> <i class="fas fa-calendar-week mr-2"></i> Went to <a href="#" class="text-decoration-none">oh canada</a></p>
+
+                    <p class="card-text"> <i class="fas fa-user-friends mr-2"></i> Become a friend with <a href="#" class="text-decoration-none">obama</a></p>
+                    <p class="card-text"> <i class="far fa-building mr-2"></i> Work at <a href="#" class="text-decoration-none">Github</a></p>
+                    <p class="card-text"> <i class="fas fa-home mr-2"></i> Live in <a href="#" class="text-decoration-none">San francisco</a></p>
+                    <p class="card-text"> <i class="fas fa-map-marker mr-2"></i> From <a href="#" class="text-decoration-none">Seattle, WA</a></p>
+
+
+
+
+            </div>
+         
+
+
+
+
+        </div>
+
+
+
+
+        <div class="card shadow-sm card-left3 mb-4">
+
+            <div class="card-body">
+                <h5 class="card-title">Photos<small class="ml-2"><a href="#">.Edit </a></small></h5>
+
+                <div class="row">
+                    <div class="col-6 p-1">
+                        <a href="{% static "img/left1.jpg" %}" data-lightbox="id" ><img src="{% static "img/left1.jpg" %}" alt="img" class="img-fluid my-2"></a>  
+                        <a href="{% static "img/left2.jpg" %}"data-lightbox="id"><img src="{% static "img/left2.jpg" %}" alt="img" class="img-fluid my-2"></a>
+                        <a href="{% static "img/left3.jpg" %}"data-lightbox="id"><img src="{% static "img/left3.jpg" %}" alt="img" class="img-fluid my-2"></a>
+
+                    </div>
+
+
+                    <div class="col-6 p-1">
+                            <a href="{% static "img/left4.jpg" %}"data-lightbox="id"><img src="{% static "img/left4.jpg" %}" alt="img" class="img-fluid my-2"></a>
+                            <a href="{% static "img/left5.jpg" %}"data-lightbox="id"><img src="{% static "img/left5.jpg" %}" alt="img" class="img-fluid my-2"></a>
+                            <a href="{% static "img/left6.jpg" %}"data-lightbox="id"><img src="{% static "img/left6.jpg" %}" alt="img" class="img-fluid my-2"></a>
+
+                        </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+       
+
+        
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
+{% endblock left_column %} {% endcomment %}
