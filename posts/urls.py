@@ -25,5 +25,6 @@ urlpatterns = [
     path("commentary/", views.commentary, name = "commentary"),
     path("follow/", views.follow, name = "follow"),
     path("unfollow/", views.unfollow, name="unfollow"),
-    path("post_like/", views.post_like, name="post_like")
+    path("post_like/", views.post_like, name="post_like"),
+    path("post_unlike/", views.post_unlike, name = "post_unlike"),
 ]

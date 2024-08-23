@@ -24,5 +24,6 @@ urlpatterns = [
     path("register/", views.register, name = "register"),
     path("logout/", views.logout, name = "logout"),
     path("u/<slug:username>", views.profile, name = "profile"),
+    path("action/change_avatar/", views.change_avatar, name = "change_avatar")
 
 ]

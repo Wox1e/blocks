@@ -21,5 +21,6 @@ from main import views
 app_name = "main"
 
 urlpatterns = [
-    path("", views.index, name = "index")
+    path("", views.index, name = "index"),
+    path("messages/", views.messages, name = "messages")
 ]

@@ -37,8 +37,8 @@
             <ul class="navbar-nav mr-auto text-capitalize">
                 <li class="nav-item"><a href="main:index" class="nav-link active">home</a></li>
                 <li class="nav-item"><a href="{% url "user:login" %}" class="nav-link">profile</a></li>
-                <li class="nav-item"><a href="#modalview" class="nav-link" data-toggle="modal">messages</a></li>
-                <li class="nav-item"><a href="notification.html" class="nav-link">docs</a></li>
+                <li class="nav-item"><a href="{% url "main:messages" %}" class="nav-link">messages</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">docs</a></li>
                 <li class="nav-item"><a href="#" class="nav-link d-md-none">growl</a></li>
                 <li class="nav-item"><a href="#" class="nav-link d-md-none">logout</a></li>
 

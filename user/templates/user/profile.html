@@ -26,14 +26,22 @@
 
 				<div class = "leftside_user_bio">
 					<div class="row m-b-r m-t-3">
+                    {% if is_owner %}
+                        <div class="user_image_div">
+                            <a href = {% url "user:change_avatar" %}><img src="{{user.image}}" alt="" class="user_image"></a>
+                        </div>
+                    {% else %}
+                        <div class="user_image_div">
+                            <img src="{{user.image}}" alt="" class="user_image">
+                        </div>
+                    {% endif %}
 
-						<div class="user_image_div">
-							<img src="{{user.image}}" alt="" class="user_image">
-						</div>
 
 						<div class="col-md-9 p-t-2">
 							{% if is_followed %}
 							<form> <h2 class="h2-responsive">@{{user.username}}<a type="button" href = {% url "posts:unfollow" %}?username={{user.username}} class="btn btn-info-outline waves-effect">Unfollow</a></h2> </form> 
+                            {% elif is_owner %}
+
 							{% else %}
 							<form> <h2 class="h2-responsive">@{{user.username}}<a type="button" href = {% url "posts:follow" %}?username={{user.username}} class="btn btn-info-outline waves-effect">Follow</a></h2> </form> 
 							{% endif %}

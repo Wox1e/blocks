@@ -48,7 +48,7 @@ def commentary(request):
     )
 
     try:
-        referer = request.META.get('HTTP_REFERER')
+        referer = request.META.get('HTTP_REFERER') + f"#post:{post.id}"
     except:
         referer = reverse("main:index")
 
@@ -125,7 +125,40 @@ def post_like(request):
 
 
     try:
-        redirect = request.META.get('HTTP_REFERER')
+        redirect = request.META.get('HTTP_REFERER') + f"#post:{post.id}"
+    except:
+        redirect = reverse("main:index")
+
+    return HttpResponseRedirect(redirect)
+
+
+def post_unlike(request):
+
+    if not request.user.is_authenticated:
+        #NOT AUTH LOGIC
+        return HttpResponseRedirect(reverse("user:login"))
+    
+    try:
+        id = request.GET["id"]
+    except:
+        #ERROR
+        return HttpResponseRedirect(reverse("main:index"))
+
+    if len(Post_Like.objects.filter(user = request.user, post = id)) == 0:
+        #Not liked
+        return HttpResponseRedirect(reverse("main:index"))
+    
+    post = Posts.objects.get(pk = id)
+    post_like_obj = Post_Like.objects.get(post = post, user = request.user)
+
+    try:
+        Post_Like.delete(post_like_obj)
+    except:
+        print(f"Cannot unlike || post = {post} || user = {request.user}")
+
+
+    try:
+        redirect = request.META.get('HTTP_REFERER') + f"#post:{post.id}"
     except:
         redirect = reverse("main:index")
 

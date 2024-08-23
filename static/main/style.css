@@ -60,9 +60,14 @@
 } */
 
 
+.like_counter {
+  padding-top: 5px;
+  font-size: 15px;
+}
+
 .user_actions {
   line-height: normal;
-  padding-bottom: 1em;
+  padding-bottom: 3px;
 }
 
 .custom_commentary_text {
@@ -79,7 +84,6 @@
 	width: 100%;
 	outline: none;
 	background: #FFFFFF;
-	color: #1B22FF;
 	border: 1px groove #C4D1EB;
 	border-radius: 12px;
 	box-shadow: 3px 3px 2px 0px #E2E2E2;

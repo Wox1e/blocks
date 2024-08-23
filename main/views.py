@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from urllib.parse import urlencode
+from requests.auth import HTTPBasicAuth
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from posts.models import Posts
 import datetime
-from django.core.paginator import Paginator
+
+
 
 # Create your views here.
 
@@ -14,13 +19,9 @@ from main.utils import *
 def index(request):
     user = request.user
     
-    try:
-        page = int(request.GET["page"])
-    except:
-        page = 1
+   
 
     
-
 
     # ##go to cache
     # try:
@@ -32,7 +33,7 @@ def index(request):
 
     posts = Posts.objects.all().order_by('-posting_time')
     
-    #paginator = Paginator(posts,10)
+    
     
 
 
@@ -44,10 +45,29 @@ def index(request):
         "title":"Лента",
         "posts":posts,
         "has_posts":has_posts,
-        "user":user,
-        #"page":page,
-        #"paginator":paginator
+        "user":user
     }
 
 
     return render(request,"main/index.html", context)
+
+
+
+def messages(request):
+    
+    messages_url = "http://127.0.0.1:8080/"
+
+    if not request.user.is_authenticated:
+        #NOT AUTH LOGIC
+        return HttpResponseRedirect(reverse("user:login"))
+    
+    try:
+        response = requests.request(url=messages_url, method="GET")
+    except:
+        #not working logic
+        return HttpResponseRedirect(reverse("main:index"))
+
+    token = generate_jwt_token(request.user)
+    url = f'http://localhost:8080/auth?token={token}'
+
+    return redirect(url)
