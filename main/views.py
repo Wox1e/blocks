@@ -1,10 +1,13 @@
+import json
 from urllib.parse import urlencode
 from requests.auth import HTTPBasicAuth
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from posts.models import Posts
 import datetime
+from main.templatetags.get_time_difference import get_time_difference
+from main.templatetags.get_commentaries import get_commentaries
 
 
 
@@ -31,8 +34,8 @@ def index(request):
     # ##
     
 
-    posts = Posts.objects.all().order_by('-posting_time')
-    
+    posts = Posts.objects.all().order_by('-posting_time')[:10]
+
     
     
 
@@ -71,3 +74,29 @@ def messages(request):
     url = f'http://localhost:8080/auth?token={token}'
 
     return redirect(url)
+
+
+
+
+def load_more(request):
+    offset = int(request.GET.get('offset'))
+    limit = int(request.GET.get('limit'))
+    posts = Posts.objects.all().order_by("-posting_time")[offset: offset + limit]
+
+    response = []
+    for post in posts:
+
+        data = {
+            "id":post.id,
+            "posting_time":get_time_difference(post.posting_time),
+            "username":post.user.username,
+            "likes":post.likes,
+            "text":post.text,
+            "is_liked":bool(post.is_liked(request.user)),
+            "image":str(post.user.image),
+        }
+
+        response.append(data)
+
+    
+    return JsonResponse(response, safe=False)

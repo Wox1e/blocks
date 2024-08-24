@@ -22,5 +22,8 @@ app_name = "main"
 
 urlpatterns = [
     path("", views.index, name = "index"),
-    path("messages/", views.messages, name = "messages")
+    path("messages/", views.messages, name = "messages"),
+
+    #other routes
+    path('api/load_more/', views.load_more, name='load_more'),
 ]

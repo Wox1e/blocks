@@ -5,6 +5,7 @@
 {% load get_time_difference %}
 {% load call %}
 
+
 {% block title %}
     <title>{{title}}</title>
 {% endblock title %}
@@ -120,6 +121,8 @@
 
 
 {% block content %}
+        <script src="{% static "main/endless_scroll.js" %}"></script>
+
             <!---------------------------------------Middle columns  start---------------->
 
 
@@ -131,7 +134,7 @@
                 <div class="middle-column">
 
 
-                    <div class="card" >
+                    <div class="card" id = "card">
 
 
                         <div class="card-header bg-transparent">
@@ -329,5 +332,7 @@
 
 
 {% endblock content %}
+
+
 
 
