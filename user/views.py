@@ -1,12 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from main.utils import publish_to_brocker
 from user.forms import UserLoginForm, UserRegisterForm
 from django.contrib import auth
 from blocks.settings import DEBUG
 from user.models import Users, Follow
 from posts.models import Posts, Commentaries
-from main.utils import *
+from main.caching import *
 import json
 
 
@@ -82,8 +83,11 @@ def register(request):
 
                 body = json.dumps(data)
 
-                publish_to_brocker("localhost", "blocks-ex-direct-all", body)
-
+                try:
+                    publish_to_brocker("localhost", "blocks-ex-direct-all", body)
+                except:
+                    #save on the temporary storage
+                    print("Cannot publish to brocker")
                 #
 
                 auth.login(request, user)
@@ -124,30 +128,8 @@ def change_avatar(request):
 
 def profile(request, username):
 
-    #caching
-    # if check_cache_api:
-    #     user = get_profile_from_cache(username)
 
-    #     if not user:
-    #         try:
-    #             user = Users.objects.get(username = username)
-    #             send_profile_to_cache(user, time=50)
-    #         except Users.DoesNotExist:
-    #             user = None
-    # else:
-    #     user = user = Users.objects.get(username = username)
-    
-    ###
-
-    
-    ##caching posts
-
-    # get_user_posts_from_cache(user.username)
-
-    ###
-
-    #remove when caching
-    user = user = Users.objects.get(username = username)
+    user = Users.objects.get(username = username)
 
     if user == None:
         #Пользователь не найден

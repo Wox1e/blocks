@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "main",
     "user",
     "posts",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -136,5 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.Users'
 
 
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

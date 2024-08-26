@@ -1,3 +1,4 @@
+#path('api/load_more/', views.load_more, name='load_more'),
 """
 URL configuration for blocks project.
 
@@ -14,17 +15,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from blocks import settings
 
+from django.urls import path
+from api import views
 
+app_name = "api"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include(("main.urls", "main"), namespace="main")),
-    path("profile/", include(("user.urls", "user"), namespace="user")),
-    path("publish/", include(("posts.urls", "posts"), namespace="posts")),
-    path("api/", include(("api.urls", "api"), namespace="api")),
+   path('load_more/', views.load_more, name='load_more'),
 ]
-

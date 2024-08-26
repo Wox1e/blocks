@@ -2,8 +2,10 @@
 
 from django.db import models
 from user.models import Users
+import redis
 # Create your models here.
-        
+
+redis_db = redis.Redis()
 
 
 class Posts(models.Model):
@@ -16,7 +18,17 @@ class Posts(models.Model):
 
     @property
     def likes(self):
-        num_likes = len(Post_Like.objects.filter(post = self))
+
+        pk = f"post:{self.id}_likes"    
+        num_likes = redis_db.get(pk)
+        print(num_likes)
+
+        if num_likes == None:
+            num_likes = len(Post_Like.objects.filter(post = self))
+            redis_db.set(name=pk, value=num_likes, ex=10)
+        else:
+            num_likes = int(num_likes)
+
         if num_likes > 1_000_000:
             return str(round(num_likes / 1_000_000, 1)) + "M"
         elif 1_000 <= num_likes < 1_000_000:
@@ -25,8 +37,11 @@ class Posts(models.Model):
             return len(Post_Like.objects.filter(post = self))
         
     def is_liked(self, user):
-        like_list = Post_Like.objects.filter(post = self, user = user)
-        return len(like_list) > 0
+        try:
+            like_list = Post_Like.objects.filter(post = self, user = user)
+            return len(like_list) > 0
+        except:
+            return False
 
     class Meta:
         verbose_name = ("Пост")
