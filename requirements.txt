@@ -1,0 +1,7 @@
+django
+redis
+requests
+pytz
+pika
+jwt
+Pillow
