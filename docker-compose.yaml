@@ -39,7 +39,7 @@ services:
 
   rabbitmq:
     image: rabbitmq
-    container_name: logs-rabbitmq-container
+    container_name: rabbitmq-container
     environment:
       ports: "-5672:15672"
     ports: 

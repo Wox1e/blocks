@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 
 from pathlib import Path
+import config
 
 
 
@@ -28,7 +29,7 @@ SECRET_KEY = 'django-insecure-$d-5b89$^i-3u60@(-s8$_g(*&9n+(fwa28872y1zre^kx_!7i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,8 +86,12 @@ WSGI_APPLICATION = 'blocks.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.DB_NAME,                      
+        'USER': config.DB_USER,
+        'PASSWORD': config.DB_PASSWORD,
+        'HOST': config.DB_HOST,
+        'PORT': config.DB_PORT,
     }
 }
 

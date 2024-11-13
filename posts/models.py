@@ -3,9 +3,13 @@
 from django.db import models
 from user.models import Users
 import redis
+import config
 # Create your models here.
 
-redis_db = redis.Redis()
+redis_db = redis.Redis(
+    host=config.REDIS_HOST, 
+    port = config.REDIS_PORT
+    )
 
 
 class Posts(models.Model):

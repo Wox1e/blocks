@@ -1,7 +1,9 @@
 django
+python-dotenv
 redis
 requests
 pytz
 pika
 jwt
 Pillow
+psycopg2-binary
