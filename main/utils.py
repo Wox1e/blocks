@@ -1,12 +1,12 @@
 
 import pika
 import jwt
-
+import config
 
 
 
 def publish_to_brocker(host:str, exchange:str, body:str, routing_key:str = "") -> None:
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(config.RABBITMQ_HOST))
     channel = connection.channel()
 
     channel.basic_publish(exchange=exchange,

@@ -1,0 +1,57 @@
+version: '3'
+services:
+  blocks:
+    container_name: ${BLOCKS_CONTAINER_NAME}
+    build: .
+    env_file:
+      - .env
+    ports:
+      - ${BLOCKS_PORT}:${BLOCKS_PORT}
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+      - redis
+      - postgres
+    restart: on-failure
+  
+  postgres:
+    image: postgres:latest
+    container_name: ${DB_CONTAINER_NAME}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - app-network
+
+
+
+  redis:
+    image: redis:alpine
+    container_name: ${REDIS_CONTAINER_NAME}
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: ${RABBITMQ_CONTAINER_NAME}
+    environment:
+      ports: "5672:15672"
+    ports: 
+       - "5672:5672"
+       - "15672:15672"
+    networks:
+      - app-network
+
+  
+
+  
+      
+networks:
+  app-network:
+    driver: bridge
