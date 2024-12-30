@@ -1,12 +1,12 @@
 version: '3'
 services:
   blocks:
-    container_name: blocks_container
+    container_name: ${BLOCKS_CONTAINER_NAME}
     build: .
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
     ports:
-      - 8000:8000
+      - ${BLOCKS_PORT}:${BLOCKS_PORT}
     networks:
       - app-network
     depends_on:
@@ -16,14 +16,14 @@ services:
     restart: on-failure
   
   postgres:
-    image: postgres
-    container_name: postgres_container
+    image: postgres:latest
+    container_name: ${DB_CONTAINER_NAME}
     environment:
-      POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: postgres_password
-      POSTGRES_DB: postgres_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5430:5432"
+      - "${DB_PORT}:${DB_PORT}"
     networks:
       - app-network
 
@@ -31,17 +31,17 @@ services:
 
   redis:
     image: redis:alpine
-    container_name: redis-container
+    container_name: ${REDIS_CONTAINER_NAME}
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     networks:
       - app-network
 
   rabbitmq:
     image: rabbitmq
-    container_name: rabbitmq-container
+    container_name: ${RABBITMQ_CONTAINER_NAME}
     environment:
-      ports: "-5672:15672"
+      ports: "5672:15672"
     ports: 
        - "5672:5672"
        - "15672:15672"
