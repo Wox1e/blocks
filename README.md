@@ -1,6 +1,6 @@
 # Description
 
-Blocks - Django-based social network for posting content. It makes possible to publish posts, like it and leave a comment. Also you can follow users and send them a messages. App is build on microservice architecture and that provide ways to easy scaling  of application.  
+Blocks - Django-based social network for posting content. It makes possible to publish posts, like it and leave a comment. Also you can follow users and send them a messages. App is build on microservice architecture and that provide ways to scale the application.
  
 # Stack:
 
