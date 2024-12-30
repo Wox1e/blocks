@@ -31,6 +31,7 @@ Blocks - Django-based social network for posting content. It makes possible to p
   
 # Screenshots:
 
+![img-0](https://github.com/Wox1e/blocks/blob/main/assets/image_0.png)
 
 
 
